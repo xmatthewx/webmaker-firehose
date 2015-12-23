@@ -13,7 +13,6 @@ function setDefaultCounts(){
 }
 
 function buildHTML(projectMeta){
-  console.log(projectMeta);
   var href = 'https://beta.webmaker.org/#/player?user=' + projectMeta.user_id + '&project=' + projectMeta.id;
   var thumb = '<a class="thumb-link" href="'+ href +'" target="_blank" ><img src="' + projectMeta.thumbnail[320] + '" ><a>';
   var title = '<h3><b>' + projectMeta.title + '</b> by ' + projectMeta.author.username + '</h3>';
