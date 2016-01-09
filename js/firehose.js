@@ -14,8 +14,8 @@ function setDefaultCounts(){
 
 function buildHTML(projectMeta){
   var href = 'https://beta.webmaker.org/#/player?user=' + projectMeta.user_id + '&project=' + projectMeta.id;
-  var thumb = '<a class="thumb-link" href="'+ href +'" target="_blank" ><img src="' + projectMeta.thumbnail[320] + '" ><a>';
-  var title = '<h3><b>' + projectMeta.title + '</b> by ' + projectMeta.author.username + '</h3>';
+  var thumb = '<a class="thumb-link" href="'+ href +'" target="_blank" ><img src="' + projectMeta.thumbnail[320] + '" ></a>';
+  var title = '<h3><b>' + projectMeta.title + '</b> by ' + projectMeta.author.username + ' <span class="project-id">(' + projectMeta.id + ')</span></h3>';
   var html = '<div id="p' + projectMeta.id + '" class="project">' + thumb + title + '</div>';
   return html;
 }

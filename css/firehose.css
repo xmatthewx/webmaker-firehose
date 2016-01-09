@@ -48,6 +48,10 @@ header h1 {
   opacity:.33;
 }
 
+.project-id {
+  color:#ccc;
+}
+
 /* type */
 
 h3 { margin:.5em .5em; font-weight:100; }
@@ -71,7 +75,7 @@ footer h4 {
 }
 option { font-size:1.5em; }
 
-footer a { color:#ddd; }
+footer a { color:#ddd ; }
 footer a:hover, footer a:active { color:#fff; }
 
 /* loading */
