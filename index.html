@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link href="css/firehose.css" rel="stylesheet">
+  <title>Webmaker Firehose</title>
+</head>
+<body>
+  <header>
+    <img src="https://beta.webmaker.org/img/newlogo.png">
+  </header>
+  <section id="app">
+    <div id="loading" class="project loadUtility"><i>loading...</i></div>
+    <div class="project loadUtility"><button id="loadMore" >More</button></div>
+  </section>
+
+  <footer>
+    <section id="settings" >
+      <h4>Settings</h4>
+      <select id="setPageMin">
+        <option value="2">2+ pages</option>
+        <option value="3" selected>3+ pages</option>
+        <option value="5">5+ pages</option>
+        <option value="10">10+ pages</option>
+      </select>
+      <select id="setElementMin">
+        <option value="3">3+ elements</option>
+        <option value="5" selected>5+ elements</option>
+        <option value="10">10+ elements</option>
+        <option value="20">20+ elements</option>
+      </select>
+      <section id="stats"><ul></ul></section>      
+    </section><!-- #settings -->
+    <section>
+      <a href="https://github.com/xmatthewx/webmaker-firehose">File bugs and fork it!</a>
+    </section>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+  <script src="js/firehose.js"></script>
+
+</body>
+</html>
