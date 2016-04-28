@@ -1,10 +1,15 @@
 var queryCount = 100; 
-var minPages = 3;
+var minPages = 2;
 var minElements = 5;
 var projects = [];
 var openedProjects = [];
 
 var fetchCount, displayCount, listPage;
+
+var languages = {
+  'current' : '',
+  'all' : {},
+}
 
 function setDefaultCounts(){
   fetchCount = 0;
@@ -18,10 +23,12 @@ function buildHTML(projectMeta){
   var thumb = '<a class="thumb-link" href="'+ href +'" target="_blank" ><img src="' + projectMeta.thumbnail[320] + '" ></a>';
   var featured = projectMeta.featured ? '<b title="featured">&#9734;</b> ' : '';
   var title = '<h3><b>' + featured + projectMeta.title + '</b> by ' + projectMeta.author.username + ' <span class="project-id">(' + projectMeta.id + ')</span></h3>';
+  var language = projectMeta.author.locale.language;
+  var languageTag = '<button class="language">' + language + '</button>';
   if (projectMeta.description) { 
     var description = '<p class="description">' + projectMeta.description + '</p>' 
   } else { var description = ''; };
-  var html = '<div id="p' + projectMeta.id + '" class="project">' + thumb + title + description + '</div>';
+  var html = '<div id="p' + projectMeta.id + '" class="project ' + language + '">' + thumb + title + description + languageTag + '</div>';
   return html;
 }
 
@@ -29,23 +36,48 @@ function renderStats(){
   var displayed = Math.floor((displayCount / fetchCount) * 100);
   var stats = '';
   stats += '<li>projects searched: ' + fetchCount + '</li>';
+  stats += '<li>languages: ' + Object.keys(languages.all).length + '</li>';
   stats += '<li>remixes: not included</li>';
   stats += '<li>displayed: ' + displayed + '%</li>';
   $('#stats ul').html(stats);
 }
 
+function initHandlers(){
+  $('.language').on('click', function(event){
+    languages.current = this.innerHTML;
+    displayLocale();
+    return false;
+  });
+}
+
+function displayLocale(){
+    if (languages.current != '') {
+      $('.project').not('.loadUtility').hide();
+      $('.' + languages.current).show();      
+    } else {
+      $('.project').not('.loadUtility').show();
+    }
+}
+
 function renderProject(projectMeta){
   var html = buildHTML(projectMeta);
   $('#app').append(html);
-  renderStats();  
+  renderStats();
+  initHandlers(); 
+  displayLocale(); 
 }
 
-function testPages(key,user,pid,projectMeta){
+function testProject(key,user,pid,projectMeta){
+  var language = projectMeta.author.locale.language;
+  languages.all[language] = language;
+
   $.getJSON( 'https://api.webmaker.org/users/' + user + '/projects/' + pid + '/pages', function( projectData ) { 
     var pageCount = projectData.pages.length;
     if (pageCount >= minPages) {
-       testElements(projectData.pages,projectMeta);
-       // @todo - remove daisy chain. create test fx to call both tests.
+       if ( testElements(projectData.pages,projectMeta) ){
+          displayCount += 1;       
+          renderProject(projectMeta);
+       };
     }
   });
 }
@@ -56,8 +88,7 @@ function testElements(pages,projectMeta) {
       elements += val.elements.length;
     });
     if (elements >= minElements) { 
-      displayCount += 1;       
-      renderProject(projectMeta);
+      return true;
     }
 }
 
@@ -83,15 +114,22 @@ function fetchProjects () {
         fetchCount += 1;
         var remix = val.remixed_from; 
         if (!remix) { 
-          testPages(key,val.user_id,val.id,val);
-        }      });
+          testProject(key,val.user_id,val.id,val);
+        }      
+      });
       $('#loading').hide();
+
     }).done( function(){
       console.log('fetched page', listPage);
       listPage += 1;
-      renderStats();  
+      renderStats(); 
     });
 }
+
+$('#showAllLanguages').on('click', function(){
+  languages.current = '';
+  displayLocale();
+});
 
 $('#loadMore').on('click', function(){
   fetchProjects();

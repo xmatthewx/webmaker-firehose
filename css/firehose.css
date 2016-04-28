@@ -37,6 +37,7 @@ header h1 {
   width:320px; 
   padding:0 0 .5em; 
   opacity:.95;
+  position: relative;
 }
 
 .project:hover, 
@@ -50,6 +51,22 @@ header h1 {
 
 .project-id {
   color:#ccc;
+}
+
+.language {
+  border:none;
+  background:#333;
+  color:white;
+  padding:.5em 1em;
+  border-radius: 5px;
+  position: absolute;
+  top:-.5em; right:1em;
+  outline:none;
+}
+
+.language:hover {
+  color:#333;
+  background: #ccc;
 }
 
 /* type */
